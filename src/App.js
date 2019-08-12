@@ -12,7 +12,7 @@ import ShoppingCart from './components/ShoppingCart'
 
 function App() {
   const [products] = useState(data)
-  const [cart, setCart] = useState([])
+	const [cart, setCart] = useState([])
 
   const addItem = (item) => {
     setCart([...cart, item])
@@ -21,7 +21,7 @@ function App() {
   return (
     <div className='App'>
       <ProductContext.Provider value={{ products, addItem }}>
-        <CartContext.Provider value={{ cart }}>
+        <CartContext.Provider value={{ cart, setCart }}>
           <Navigation cart={cart} />
           <Route exact path='/' component={Products} />
           <Route path='/cart' component={ShoppingCart} />
