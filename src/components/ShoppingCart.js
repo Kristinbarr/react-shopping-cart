@@ -2,11 +2,11 @@ import React from 'react'
 import { useContext } from 'react'
 import CartContext from '../contexts/CartContext'
 
-// Components
 import Item from './ShoppingCartItem'
 
 const ShoppingCart = () => {
   const { cart, setCart } = useContext(CartContext)
+	// let cart = JSON.parse(localStorage.getItem('ShoppingCart')) || ''
 
   const getCartTotal = () => {
     return cart
@@ -16,18 +16,19 @@ const ShoppingCart = () => {
       .toFixed(2)
   }
 
-  const removeItem = (id) => {
+  const removeItem = (unique_id) => {
     let filtered = cart.filter((item) => {
-      return id !== item.id
+			return unique_id !== item.unique_id
     })
-    getCartTotal()
-    setCart(filtered)
+		setCart(filtered)
+		// localStorage.setItem('ShoppingCart', JSON.stringify(filtered))
+		getCartTotal()
   }
 
   return (
     <div className='shopping-cart'>
       {cart.map((item) => (
-        <Item key={item.id} {...item} removeItem={removeItem} />
+        <Item key={item.unique_id} {...item} removeItem={removeItem} />
       ))}
 
       <div className='shopping-cart__checkout'>
