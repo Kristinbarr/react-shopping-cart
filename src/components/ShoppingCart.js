@@ -1,27 +1,42 @@
-import React from 'react';
+import React from 'react'
+import { useContext } from 'react'
+import CartContext from '../contexts/CartContext'
 
-// Components
-import Item from './ShoppingCartItem';
+import Item from './ShoppingCartItem'
 
-const ShoppingCart = props => {
-	const getCartTotal = () => {
-		return props.cart.reduce((acc, value) => {
-			return acc + value.price;
-		}, 0).toFixed(2);
-	};
+const ShoppingCart = () => {
+  const { cart, setCart } = useContext(CartContext)
+	// let cart = JSON.parse(localStorage.getItem('ShoppingCart')) || ''
 
-	return (
-		<div className="shopping-cart">
-			{props.cart.map(item => (
-				<Item key={item.id} {...item} />
-			))}
+  const getCartTotal = () => {
+    return cart
+      .reduce((acc, value) => {
+        return acc + value.price
+      }, 0)
+      .toFixed(2)
+  }
 
-			<div className="shopping-cart__checkout">
-				<p>Total: ${getCartTotal()}</p>
-				<button>Checkout</button>
-			</div>
-		</div>
-	);
-};
+  const removeItem = (unique_id) => {
+    let filtered = cart.filter((item) => {
+			return unique_id !== item.unique_id
+    })
+		setCart(filtered)
+		// localStorage.setItem('ShoppingCart', JSON.stringify(filtered))
+		getCartTotal()
+  }
 
-export default ShoppingCart;
+  return (
+    <div className='shopping-cart'>
+      {cart.map((item) => (
+        <Item key={item.unique_id} {...item} removeItem={removeItem} />
+      ))}
+
+      <div className='shopping-cart__checkout'>
+        <p>Total: ${getCartTotal()}</p>
+        <button>Checkout</button>
+      </div>
+    </div>
+  )
+}
+
+export default ShoppingCart
