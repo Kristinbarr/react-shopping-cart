@@ -19,11 +19,8 @@ function App() {
   const addItem = (item) => {
 		item['unique_id'] = new Date().getTime()
     let newItem = Object.assign({}, item)
-		let cartArr = cart
-    cartArr.push(newItem)
-    setCart(cartArr)
+    setCart([...cart, newItem])
     // localStorage.setItem('ShoppingCart', JSON.stringify([...cart, item]))
-		console.log(cartArr)
   }
 
   return (
